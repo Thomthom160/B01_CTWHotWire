@@ -94,14 +94,14 @@ function startGame(ms) {
     $("#timerBar").css("width","100%")
     interval = setInterval(function() {
         if ((100 * Number($("#timerBar").css("width").replace('px',"")) / window.innerWidth) >= 23.45) {
-            $.post('http://b01_ctwhotwire/result', JSON.stringify({result: false}));
+            $.post(`http://${GetCurrentResourceName()}/minigameOver`, JSON.stringify({result: false}));
             stopMinigame()
             clearInterval(interval)
             console.log("failed")
         }
         if (finished) {
             $("#main").css("background-image","url(./assets/LitUpDashboard.png)")
-            $.post('http://b01_ctwhotwire/result', JSON.stringify({result: true}));
+            $.post(`http://${GetCurrentResourceName()}/minigameOver`, JSON.stringify({result: true}));
             clearInterval(interval)
             console.log("finished")
         }

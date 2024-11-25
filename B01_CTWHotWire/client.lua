@@ -1,30 +1,39 @@
-local inMinigame = false
-local Result = false
+---@type promise?
+local p
 
-RegisterNUICallback("result", function(data, cb)
-    SetNuiFocus(false,false)
+RegisterNUICallback("minigameOver", function(data, cb)
     cb('ok')
-    Result = data.result
-    inMinigame = false
+    if p then
+        SetNuiFocus(false,false)
+        p:resolve(data.result)
+        p = nil
+    end
 end)
 
 startMinigame = function(duration)
+    if p ~= nil then return end
+    p = promise:new()
+
     SetNuiFocus(true,true)
     SendNUIMessage({
         type = "start",
         duration = duration
     })
-    inMinigame = true
 
-    repeat Wait(25) until not inMinigame
-    return Result
+    return Citizen.Await(p)
 end
 
 stopMinigame = function()
-    SetNuiFocus(false,false)
-    SendNUIMessage({
-        type = "stop",
-    })
-    inMinigame = false
-    Result = false
+    if p then
+        SetNuiFocus(false,false)
+        SendNUIMessage({
+            type = "stop",
+        })
+        p:resolve(false)
+        p = nil
+    end
+end
+
+isMinigameActive = function()
+    return p ~= nil
 end

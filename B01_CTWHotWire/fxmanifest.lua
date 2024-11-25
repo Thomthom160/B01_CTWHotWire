@@ -21,5 +21,6 @@ client_scripts {
 
 exports {
     'startMinigame',
-	'stopMinigame'
+	'stopMinigame',
+	'isMinigameActive'
 }
