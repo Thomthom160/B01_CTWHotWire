@@ -21,9 +21,9 @@ end)
 
 ```lua
 if exports['B01_CTWHotWire']:startMinigame(15000) then
-	// Do stuff
+	--Do stuff
 else
-	// Dont do the stuff
+	--Dont do the stuff
 end
 ```
 Value returned is a boolean by the export is a boolean.
